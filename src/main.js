@@ -1,16 +1,18 @@
 exports.load = strings => ({
-    t(input, ...args) {
+    strings,
+    usedStrings: {},
+
+    t(input, args = {}) {
         let key = typeof input === 'function'
-            ? input(...[...Array(input.length)].map((_, i) => `\$${i}`))
+            ? input(
+                Object.keys(args)
+                .reduce((acc, key) => (acc[key] = `\${${key}}`, acc), {})
+            )
             : input
 
-        if (!strings[key]) strings[key] = input
-        let value = strings[key]
+        let value = strings[key] || input
+        this.usedStrings[key] = !strings[key] ? null : value
 
-        return typeof value === 'function' ? value(...args) : value
-    },
-
-    getStrings() {
-        return strings
+        return typeof value === 'function' ? value(args) : value
     }
 })
