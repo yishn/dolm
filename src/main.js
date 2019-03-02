@@ -10,17 +10,7 @@ exports.load = strings => ({
         return typeof value === 'function' ? value(...args) : value
     },
 
-    serialize() {
-        return [
-            '{',
-            Object.keys(strings).map(key => {
-                let value = !strings[key] ? null
-                    : typeof strings[key] === 'function' ? strings[key].toString()
-                    : JSON.stringify(`${strings[key]}`)
-
-                return value == null ? null : `  ${JSON.stringify(key)}: ${value}`
-            }).filter(x => x != null).join(',\n'),
-            '}'
-        ].join('\n')
+    getStrings() {
+        return strings
     }
 })
