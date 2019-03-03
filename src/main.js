@@ -1,5 +1,4 @@
 exports.load = strings => ({
-    strings,
     usedStrings: {},
 
     t(input, args = {}) {
