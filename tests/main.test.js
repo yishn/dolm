@@ -35,7 +35,7 @@ async function test() {
   "general": {
     "Hello World!": "Hallo Welt!",
     "I have \${count} apples": (p, t) => \`Ich habe \${p.count} \${t('apples', p)}\`,
-    "apples": p => \`\${p.count === 1 ? 'Apfel' : 'Äpfel'}\`,
+    "apples": p => \`\${p.count === 1 ? 'A' : 'Ä'}pfel\`,
   },
   "non-existent": {
     "Hello \${name}": null,
