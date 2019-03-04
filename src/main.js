@@ -5,9 +5,10 @@ exports.load = strings => {
     usedStrings,
 
     context(context) {
-      usedStrings[context] = {}
+      if (!strings[context]) strings[context] = {}
+      if (!usedStrings[context]) usedStrings[context] = {}
 
-      return {
+      let self = {
         context,
         usedStrings,
 
@@ -20,17 +21,19 @@ exports.load = strings => {
                 acc[key] = `\${${key}}`,
                 acc
               ), {}),
-              this
+              exports.load({}).context('').t
             )
 
-          let value = strings[key] || input
-          usedStrings[context][key] = !strings[key] ? null : value
+          let value = strings[context][key] || input
+          usedStrings[context][key] = !strings[context][key] ? null : value
 
           return typeof value !== 'function'
             ? value
-            : value(args, this)
+            : value(args, self.t)
         }
       }
+
+      return self
     },
 
     serialize(indent = '  ') {
