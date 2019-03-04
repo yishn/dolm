@@ -1,23 +1,36 @@
-exports.load = strings => ({
-    usedStrings: {},
+exports.load = strings => {
+    let usedStrings = {}
 
-    t(input, args = {}) {
-        let key = typeof input !== 'function'
-            ? input
-            : input(
-                // Build dummy args object
-                Object.keys(args).reduce((acc, key) => (
-                    acc[key] = `\${${key}}`,
-                    acc
-                ), {}),
-                this
-            )
+    return {
+        usedStrings,
 
-        let value = strings[key] || input
-        this.usedStrings[key] = !strings[key] ? null : value
+        context(context) {
+            usedStrings[context] = {}
 
-        return typeof value !== 'function'
-            ? value
-            : value(args, this)
+            return {
+                context,
+                usedStrings,
+
+                t(input, args = {}) {
+                    let key = typeof input !== 'function'
+                        ? input
+                        : input(
+                            // Build dummy args object
+                            Object.keys(args).reduce((acc, key) => (
+                                acc[key] = `\${${key}}`,
+                                acc
+                            ), {}),
+                            this
+                        )
+
+                    let value = strings[key] || input
+                    usedStrings[context][key] = !strings[key] ? null : value
+
+                    return typeof value !== 'function'
+                        ? value
+                        : value(args, this)
+                }
+            }
+        }
     }
-})
+}
