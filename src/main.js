@@ -12,12 +12,12 @@ exports.load = strings => {
         context,
         usedStrings,
 
-        t(input, args = {}) {
+        t(input, params = {}) {
           let key = typeof input !== 'function'
             ? input
             : input(
-              // Build dummy args object
-              Object.keys(args).reduce((acc, key) => (
+              // Build dummy params object
+              Object.keys(params).reduce((acc, key) => (
                 acc[key] = `\${${key}}`,
                 acc
               ), {}),
@@ -29,7 +29,7 @@ exports.load = strings => {
 
           return typeof value !== 'function'
             ? value
-            : value(args, self.t)
+            : value(params, self.t)
         }
       }
 
