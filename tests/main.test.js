@@ -21,20 +21,25 @@ async function test() {
       let t = dolm.context('general')
 
       tap.equal(t('Hello World!'), 'Hallo Welt!')
-      tap.equal(t((p, t) => `I have ${p.count} ${t('apples', p)}`, {count: 0}), 'Ich habe 0 Äpfel')
-      tap.equal(t((p, t) => `I have ${p.count} ${t('apples', p)}`, {count: 1}), 'Ich habe 1 Apfel')
-      tap.equal(t((p, t) => `I have ${p.count} ${t('apples', p)}`, {count: 2}), 'Ich habe 2 Äpfel')
+
+      let complexString = (p, t) => `I have ${['no', 'one'][p.count] || p.count} ${t('apples', p)}`
+
+      tap.equal(t(complexString, {count: 0}), 'Ich habe keine Äpfel')
+      tap.equal(t(complexString, {count: 1}), 'Ich habe einen Apfel')
+      tap.equal(t(complexString, {count: 2}), 'Ich habe 2 Äpfel')
     })
   ])
 
   tap.test('serialize', async tap => {
-    let usedStrings = dolm.serialize()
+    let serialized = dolm.serialize()
 
-    tap.equal(usedStrings, `
+    console.log(serialized)
+
+    tap.equal(serialized, `
 {
   "general": {
     "Hello World!": "Hallo Welt!",
-    "I have \${count} apples": (p, t) => \`Ich habe \${p.count} \${t('apples', p)}\`,
+    "I have \${count} apples": (p, t) => \`Ich habe \${['keine', 'einen'][p.count] || p.count} \${t('apples', p)}\`,
     "apples": p => \`\${p.count === 1 ? 'A' : 'Ä'}pfel\`,
   },
   "non-existent": {
