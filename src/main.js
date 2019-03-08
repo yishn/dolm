@@ -49,9 +49,13 @@ exports.load = strings => {
         return [
           '{',
           Object.keys(obj).sort().map(key => {
-            let value = inner(obj[key])
-              .split('\n')
-              .map((line, i) => i === 0 ? line : `${indent}${line}`)
+            let lines = inner(obj[key]).split('\n')
+            let slice = Math.min(...lines.map((x, i) =>
+              i === 0 ? Infinity : x.match(/^\s*/)[0].length
+            ))
+
+            let value = lines
+              .map((line, i) => i === 0 ? line : `${indent}${line.slice(slice)}`)
               .join('\n')
 
             return `${indent}${JSON.stringify(key)}: ${value},`
