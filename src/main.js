@@ -16,8 +16,7 @@ exports.load = strings => {
             Object.keys(params).reduce((acc, key) => (
               acc[key] = `\${${key}}`,
               acc
-            ), {}),
-            exports.load({}).context('')
+            ), {})
           )
 
         let value = strings[context][key] || input
@@ -25,7 +24,7 @@ exports.load = strings => {
 
         return typeof value !== 'function'
           ? value
-          : value(params, t)
+          : value(params)
       }
 
       return t

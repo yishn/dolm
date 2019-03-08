@@ -4,7 +4,7 @@ let strings = {
   general: {
     'Hello World!': 'Hallo Welt!',
     'apples': p => `${p.count === 1 ? 'A' : 'Ä'}pfel`,
-    'I have ${count} apples': (p, t) => `Ich habe ${['keine', 'einen'][p.count] || p.count} ${t('apples', p)}`
+    'I have ${count} apples': p => `Ich habe ${['keine', 'einen'][p.count] || p.count} ${p.count === 1 ? 'A' : 'Ä'}pfel`
   },
   special: {
     'Edit on GitHub': 'Auf GitHub bearbeiten',

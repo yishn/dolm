@@ -22,7 +22,7 @@ async function test() {
 
       tap.equal(t('Hello World!'), 'Hallo Welt!')
 
-      let complexString = (p, t) => `I have ${['no', 'one'][p.count] || p.count} ${t('apples', p)}`
+      let complexString = p => `I have ${['no', 'one'][p.count] || p.count} apple${p !== 1 ? 's' : ''}`
 
       tap.equal(t(complexString, {count: 0}), 'Ich habe keine Äpfel')
       tap.equal(t(complexString, {count: 1}), 'Ich habe einen Apfel')
@@ -33,16 +33,15 @@ async function test() {
   tap.test('serialize', async tap => {
     let serialized = dolm.serialize()
 
-    tap.equal(serialized.translatedCount, 3)
+    tap.equal(serialized.translatedCount, 2)
     tap.equal(serialized.untranslatedCount, 4)
-    tap.equal(serialized.progress, 3 / 7)
+    tap.equal(serialized.progress, 2 / 6)
 
     tap.equal(serialized.js, `
 {
   "general": {
     "Hello World!": "Hallo Welt!",
-    "I have \${count} apples": (p, t) => \`Ich habe \${['keine', 'einen'][p.count] || p.count} \${t('apples', p)}\`,
-    "apples": p => \`\${p.count === 1 ? 'A' : 'Ä'}pfel\`,
+    "I have \${count} apples": p => \`Ich habe \${['keine', 'einen'][p.count] || p.count} \${p.count === 1 ? 'A' : 'Ä'}pfel\`,
   },
   "non-existent": {
     "Hello \${name}": null,
