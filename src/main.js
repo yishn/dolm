@@ -8,32 +8,27 @@ exports.load = strings => {
       if (!strings[context]) strings[context] = {}
       if (!usedStrings[context]) usedStrings[context] = {}
 
-      let self = {
-        context,
-        usedStrings,
+      let t = (input, params = {}) => {
+        let key = typeof input !== 'function'
+          ? input
+          : input(
+            // Build dummy params object
+            Object.keys(params).reduce((acc, key) => (
+              acc[key] = `\${${key}}`,
+              acc
+            ), {}),
+            exports.load({}).context('')
+          )
 
-        t(input, params = {}) {
-          let key = typeof input !== 'function'
-            ? input
-            : input(
-              // Build dummy params object
-              Object.keys(params).reduce((acc, key) => (
-                acc[key] = `\${${key}}`,
-                acc
-              ), {}),
-              exports.load({}).context('').t
-            )
+        let value = strings[context][key] || input
+        usedStrings[context][key] = !strings[context][key] ? null : value
 
-          let value = strings[context][key] || input
-          usedStrings[context][key] = !strings[context][key] ? null : value
-
-          return typeof value !== 'function'
-            ? value
-            : value(params, self.t)
-        }
+        return typeof value !== 'function'
+          ? value
+          : value(params, t)
       }
 
-      return self
+      return t
     },
 
     serialize(indent = '  ') {
