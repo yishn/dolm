@@ -5,7 +5,6 @@ exports.load = strings => {
     usedStrings,
 
     context(context) {
-      if (!strings[context]) strings[context] = {}
       if (!usedStrings[context]) usedStrings[context] = {}
 
       let t = (input, params = {}) => {
@@ -19,8 +18,9 @@ exports.load = strings => {
             ), {})
           )
 
-        let value = strings[context][key] || input
-        usedStrings[context][key] = !strings[context][key] ? null : value
+        let translated = (strings[context] || {})[key]
+        let value = translated || input
+        usedStrings[context][key] = !translated ? null : value
 
         return typeof value !== 'function'
           ? value
