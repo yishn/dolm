@@ -33,7 +33,11 @@ async function test() {
   tap.test('serialize', async tap => {
     let serialized = dolm.serialize()
 
-    tap.equal(serialized, `
+    tap.equal(serialized.translatedCount, 3)
+    tap.equal(serialized.untranslatedCount, 4)
+    tap.equal(serialized.progress, 3 / 7)
+
+    tap.equal(serialized.js, `
 {
   "general": {
     "Hello World!": "Hallo Welt!",

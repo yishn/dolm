@@ -32,13 +32,20 @@ exports.load = strings => {
     },
 
     serialize(indent = '  ') {
+      let translatedCount = 0
+      let untranslatedCount = 0
+
       let inner = obj => {
-        if (!obj)
+        if (!obj) {
+          untranslatedCount++
           return 'null'
-        else if (typeof obj === 'function')
+        } else if (typeof obj === 'function') {
+          translatedCount++
           return obj.toString()
-        else if (typeof obj !== 'object')
+        } else if (typeof obj !== 'object') {
+          translatedCount++
           return JSON.stringify(`${obj}`)
+        }
 
         return [
           '{',
@@ -54,7 +61,16 @@ exports.load = strings => {
         ].join('\n')
       }
 
-      return inner(usedStrings)
+      let js = inner(usedStrings)
+      let progress = untranslatedCount + translatedCount === 0 ? 0
+        : translatedCount / (untranslatedCount + translatedCount)
+
+      return {
+        translatedCount,
+        untranslatedCount,
+        progress,
+        js
+      }
     }
   }
 }
