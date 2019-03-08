@@ -33,8 +33,6 @@ async function test() {
   tap.test('serialize', async tap => {
     let serialized = dolm.serialize()
 
-    console.log(serialized)
-
     tap.equal(serialized, `
 {
   "general": {
