@@ -48,10 +48,10 @@ async function test() {
     "Hello World!": null,
   },
   "special": {
-    "Edit on GitHub": "Auf GitHub bearbeiten",
+    /* unused */ "Edit on GitHub": "Auf GitHub bearbeiten",
     "Hello \${name}": null,
     "Hello World!": null,
-    "My name is \${name}": p => \`Ich heiße \${p.name}\`,
+    /* unused */ "My name is \${name}": p => \`Ich heiße \${p.name}\`,
   },
 }
     `.trim())
