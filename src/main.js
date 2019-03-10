@@ -1,11 +1,7 @@
 exports.load = strings => {
-  let usedStrings = {}
-
   return {
-    usedStrings,
-
     context(context) {
-      if (!usedStrings[context]) usedStrings[context] = {}
+      if (!strings[context]) strings[context] = {}
 
       let t = (input, params = {}) => {
         let key = typeof input !== 'function'
@@ -18,9 +14,8 @@ exports.load = strings => {
             ), {})
           )
 
-        let translated = (strings[context] || {})[key]
-        let value = translated || input
-        usedStrings[context][key] = !translated ? null : value
+        let value = strings[context][key] || input
+        strings[context][key] = !strings[context][key] ? null : value
 
         return typeof value !== 'function'
           ? value
@@ -64,7 +59,7 @@ exports.load = strings => {
         ].join('\n')
       }
 
-      let js = inner(usedStrings)
+      let js = inner(strings)
       let progress = untranslatedCount + translatedCount === 0 ? 0
         : translatedCount / (untranslatedCount + translatedCount)
 

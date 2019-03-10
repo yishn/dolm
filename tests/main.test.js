@@ -33,9 +33,9 @@ async function test() {
   tap.test('serialize', async tap => {
     let serialized = dolm.serialize()
 
-    tap.equal(serialized.translatedCount, 2)
+    tap.equal(serialized.translatedCount, 4)
     tap.equal(serialized.untranslatedCount, 4)
-    tap.equal(serialized.progress, 2 / 6)
+    tap.equal(serialized.progress, .5)
 
     tap.equal(serialized.js, `
 {
@@ -48,8 +48,10 @@ async function test() {
     "Hello World!": null,
   },
   "special": {
+    "Edit on GitHub": "Auf GitHub bearbeiten",
     "Hello \${name}": null,
     "Hello World!": null,
+    "My name is \${name}": p => \`Ich heiße \${p.name}\`,
   },
 }
     `.trim())
