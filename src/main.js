@@ -69,13 +69,13 @@ exports.load = strings => {
       }
 
       let js = inner(strings)
-      let progress = untranslatedCount + translatedCount === 0 ? 0
+      let complete = untranslatedCount + translatedCount === 0 ? 0
         : translatedCount / (untranslatedCount + translatedCount)
 
       return {
         translatedCount,
         untranslatedCount,
-        progress,
+        complete,
         js
       }
     }

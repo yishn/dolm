@@ -53,7 +53,7 @@ t('Good morning') // Key not found
 You can also specify functions inside the translation function. Using so-called *complex strings* you can use interpolation and formatting inside translated text.
 
 ~~~js
-let t = dolm.context('complex') // non-existent context
+const t = dolm.context('complex') // non-existent context
 
 t(p => `My name is ${p.name}`, {name: 'Yichuan'})
 // => "My name is Yichuan"
@@ -80,3 +80,49 @@ let strings = {
 If you use complex strings, you have to pay special attention to the key. It's best to let dolm generate a template strings object with its [serialization](#serialization) feature.
 
 It's theoretically possible that two different default implementations generate the same key, which may cause issues, but in practice, this is rarely a problem.
+
+### Serialization
+
+You can generate a template strings object string based on the strings object you loaded into dolm:
+
+~~~js
+let strings = {
+  simple: {
+    "Hello World!": "Hallo Welt!",
+    "Goodbye": "Auf Wiedersehen"
+  }
+}
+
+const dolm = require('dolm').load(strings)
+const t1 = dolm.context('simple')
+const t2 = dolm.context('non-existent')
+
+t1('Hello World!')
+t1(p => `Hello ${p.name}`, {name: 'Yichuan'})
+t2('Good night')
+
+dolm.serialize()
+// => {
+//   translatedCount: 2,
+//   untranslatedCount: 2,
+//   complete: 0.5,
+//   js
+// }
+~~~
+
+In the example above, `js` is a string with the following content:
+
+~~~js
+{
+  "simple": {
+    /* unused */ "Goodbye": "Auf Wiedersehen",
+    "Hello ${name}": null,
+    "Hello World!": "Hallo Welt!",
+  },
+  "non-existent": {
+    "Good night": null,
+  },
+}
+~~~
+
+Keys are being sorted alphabetically. Strings that are not being used get the `/* unused */` flag in front.

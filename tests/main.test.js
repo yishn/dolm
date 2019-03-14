@@ -35,7 +35,7 @@ async function test() {
 
     tap.equal(serialized.translatedCount, 4)
     tap.equal(serialized.untranslatedCount, 4)
-    tap.equal(serialized.progress, .5)
+    tap.equal(serialized.complete, .5)
 
     tap.equal(serialized.js, `
 {
