@@ -4,6 +4,10 @@ exports.load = strings => {
   return {
     usedStrings,
 
+    t(context, input, params = {}) {
+      return this.context(context)(input, params)
+    },
+
     context(context) {
       if (!strings[context]) strings[context] = {}
       if (!usedStrings[context]) usedStrings[context] = {}

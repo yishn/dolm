@@ -27,6 +27,16 @@ async function test() {
       tap.equal(t(complexString, {count: 0}), 'Ich habe keine Äpfel')
       tap.equal(t(complexString, {count: 1}), 'Ich habe einen Apfel')
       tap.equal(t(complexString, {count: 2}), 'Ich habe 2 Äpfel')
+    }),
+
+    tap.test('get existing strings directly', async tap => {
+      tap.equal(dolm.t('general', 'Hello World!'), 'Hallo Welt!')
+
+      let complexString = p => `I have ${['no', 'one'][p.count] || p.count} apple${p !== 1 ? 's' : ''}`
+
+      tap.equal(dolm.t('general', complexString, {count: 0}), 'Ich habe keine Äpfel')
+      tap.equal(dolm.t('general', complexString, {count: 1}), 'Ich habe einen Apfel')
+      tap.equal(dolm.t('general', complexString, {count: 2}), 'Ich habe 2 Äpfel')
     })
   ])
 
