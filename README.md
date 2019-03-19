@@ -37,8 +37,14 @@ let t = dolm.context('simple')
 t('Hello World!')
 // => "Hallo Welt!"
 
+// Or equivalently:
+dolm.t('simple', 'Hello World')
+
 t('Goodbye')
 // => "Auf Wiedersehen"
+
+// Or equivalently:
+dolm.t('simple', 'Goodbye')
 ~~~
 
 If a key is not found, dolm will fall back to the default text:
@@ -58,8 +64,14 @@ const t = dolm.context('complex') // non-existent context
 t(p => `My name is ${p.name}`, {name: 'Yichuan'})
 // => "My name is Yichuan"
 
+// Or equivalently:
+dolm.t('complex', p => `My name is ${p.name}`, {name: 'Yichuan'})
+
 t(p => `I have ${['no apples', 'one apple'][p.count] || `${p.count} apples`}`, {count: 1})
 // => "I have one apple"
+
+// Or equivalently:
+dolm.t('complex', p => `I have ${['no apples', 'one apple'][p.count] || `${p.count} apples`}`, {count: 1})
 ~~~
 
 In the example above, dolm uses the default implementations, because no translations are provided. To create translations in the strings object, dolm generates a key from the default implementations.
