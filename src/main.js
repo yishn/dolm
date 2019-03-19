@@ -12,7 +12,7 @@ exports.load = strings => {
       if (!strings[context]) strings[context] = {}
       if (!usedStrings[context]) usedStrings[context] = {}
 
-      let t = (input, params = {}) => {
+      return (input, params = {}) => {
         let key = typeof input !== 'function'
           ? input
           : input(
@@ -32,8 +32,6 @@ exports.load = strings => {
           ? value
           : value(params)
       }
-
-      return t
     },
 
     serialize(indent = '  ') {
