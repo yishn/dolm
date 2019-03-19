@@ -1,11 +1,11 @@
 exports.load = strings => {
   let usedStrings = {}
 
-  return {
+  let instance = {
     usedStrings,
 
     t(context, input, params = {}) {
-      return this.context(context)(input, params)
+      return instance.context(context)(input, params)
     },
 
     context(context) {
@@ -82,4 +82,6 @@ exports.load = strings => {
       }
     }
   }
+
+  return instance
 }
