@@ -2,7 +2,13 @@ exports.load = strings => {
   let usedStrings = {}
 
   let instance = {
+    strings,
     usedStrings,
+
+    load(newStrings) {
+      instance.usedStrings = usedStrings = {}
+      instance.strings = strings = newStrings
+    },
 
     t(context, input, params = {}) {
       return instance.context(context)(input, params)
