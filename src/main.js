@@ -15,10 +15,10 @@ exports.load = strings => {
     },
 
     context(context) {
-      if (!strings[context]) strings[context] = {}
-      if (!usedStrings[context]) usedStrings[context] = {}
-
       return (input, params = {}) => {
+        if (!strings[context]) strings[context] = {}
+        if (!usedStrings[context]) usedStrings[context] = {}
+
         let key = typeof input !== 'function'
           ? input
           : input(
