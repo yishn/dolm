@@ -74,7 +74,7 @@ exports.load = strings => {
 
               let value = lines
                 .map((line, i) =>
-                  i === 0 ? line : `${indent}${line.slice(slice)}`
+                  i === 0 ? line : `${indent + indent}${line.slice(slice)}`
                 )
                 .join('\n')
 

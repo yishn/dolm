@@ -4,7 +4,7 @@
   "description": "A tiny internationalization library.",
   "main": "./src/main.js",
   "scripts": {
-    "test": "tap tests/*.test.js --no-coverage",
+    "test": "cd tests && tap --no-coverage",
     "format": "prettier \"**/*.{js,md}\" --write",
     "format-watch": "onchange \"**/*.{js,md}\" -- prettier --write {{changed}}"
   },
