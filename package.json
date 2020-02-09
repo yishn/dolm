@@ -3,6 +3,7 @@
   "version": "0.4.2-alpha",
   "description": "A tiny internationalization library.",
   "main": "./src/main.js",
+  "bin": "./cli/main.js",
   "scripts": {
     "test": "cd tests && tap --no-coverage",
     "format": "prettier \"**/*.{js,md}\" --write",
@@ -28,6 +29,10 @@
     "singleQuote": true,
     "bracketSpacing": false,
     "proseWrap": "always"
+  },
+  "dependencies": {
+    "@babel/parser": "^7.8.4",
+    "@babel/traverse": "^7.8.4"
   },
   "devDependencies": {
     "onchange": "^6.1.0",
