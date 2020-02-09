@@ -105,8 +105,7 @@ let strings = {
 ```
 
 If you use complex strings, you have to pay special attention to the key. It's
-best to let dolm generate a template strings object with its
-[serialization](#serialization) feature.
+best to let dolm generate a template strings object with its CLI tool.
 
 It's theoretically possible that two different default implementations generate
 the same key, which may cause issues, but in practice, this is rarely a problem.
