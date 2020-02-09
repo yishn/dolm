@@ -1,12 +1,8 @@
 exports.load = strings => {
-  let usedStrings = {}
-
   let instance = {
     strings,
-    usedStrings,
 
     load(newStrings) {
-      instance.usedStrings = usedStrings = {}
       instance.strings = strings = newStrings
     },
 
@@ -16,9 +12,6 @@ exports.load = strings => {
 
     context(context) {
       return (input, params = {}) => {
-        if (!strings[context]) strings[context] = {}
-        if (!usedStrings[context]) usedStrings[context] = {}
-
         let key =
           typeof input !== 'function'
             ? input
@@ -30,10 +23,7 @@ exports.load = strings => {
                 )
               )
 
-        let value = strings[context][key] || input
-
-        usedStrings[context][key] = value
-        strings[context][key] = !strings[context][key] ? null : value
+        let value = (strings[context] || {})[key] || input
 
         return typeof value !== 'function' ? value : value(params)
       }
