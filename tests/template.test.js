@@ -83,12 +83,12 @@ tap.test('extractStrings', async tap => {
 
   tap.test('handle scopes correctly', async tap => {
     let codeFunc = () => {
-      let t = dolm.context('context1')
+      let t = i18n.context('context1')
 
       t('Hello World!')
 
       {
-        let t = dolm.context('context2')
+        let t = i18n.context('context2')
 
         t(p => `Hello World ${p.name}!`, {name: 'Yichuan'})
 
@@ -101,7 +101,9 @@ tap.test('extractStrings', async tap => {
     }
 
     tap.matchSnapshot(
-      template.serializeStrings(template.extractStrings(codeFunc.toString()))
+      template.serializeStrings(
+        template.extractStrings(codeFunc.toString(), {dolmIdentifier: 'i18n'})
+      )
     )
   })
 })

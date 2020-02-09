@@ -178,13 +178,13 @@ exports.extractStrings = function(code, {dolmIdentifier = 'dolm'} = {}) {
 
 exports.serializeStrings = function(
   strings,
-  {existingStrings = {}, indent = '  '} = {}
+  {existingStrings = {}, indent = '  ', lineEnding = '\n'} = {}
 ) {
   let inner = (obj, path = []) => {
     if (!obj) {
       return 'null'
     } else if (typeof obj === 'function') {
-      return obj.toString()
+      return obj.toString().replace(/\r/g, '')
     } else if (typeof obj !== 'object') {
       return JSON.stringify(`${obj}`)
     }
@@ -194,7 +194,7 @@ exports.serializeStrings = function(
       Object.keys(obj)
         .sort()
         .map(key => {
-          let lines = inner(obj[key], [...path, key]).split('\n')
+          let lines = inner(obj[key], [...path, key]).split(lineEnding)
           let unused =
             (path.reduce((acc, key) => acc && acc[key], strings) || {})[key] ===
             undefined
@@ -214,7 +214,7 @@ exports.serializeStrings = function(
                 ? line
                 : `${indent}${extraIndent ? indent : ''}${line.slice(slice)}`
             )
-            .join('\n')
+            .join(lineEnding)
 
           return [
             indent,
@@ -222,9 +222,9 @@ exports.serializeStrings = function(
             `${JSON.stringify(key)}: ${value},`
           ].join('')
         })
-        .join('\n'),
+        .join(lineEnding),
       '}'
-    ].join('\n')
+    ].join(lineEnding)
   }
 
   let mergedStrings = {...existingStrings}
@@ -236,5 +236,5 @@ exports.serializeStrings = function(
     }
   }
 
-  return inner(mergedStrings).replace(/\r/g, '')
+  return inner(mergedStrings)
 }
