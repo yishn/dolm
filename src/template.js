@@ -196,9 +196,14 @@ exports.serializeStrings = function(
             )
           )
 
+          let extraIndent =
+            lines.length >= 2 && lines[1].match(/^\s*/)[0].length === slice
+
           let value = lines
             .map((line, i) =>
-              i === 0 ? line : `${indent}${line.slice(slice)}`
+              i === 0
+                ? line
+                : `${indent}${extraIndent ? indent : ''}${line.slice(slice)}`
             )
             .join('\n')
 
