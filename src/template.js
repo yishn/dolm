@@ -187,8 +187,8 @@ exports.serializeStrings = function(
         .map(key => {
           let lines = inner(obj[key], [...path, key]).split('\n')
           let unused =
-            (path.reduce((acc, key) => acc && acc[key], strings) || {})[key] ==
-            null
+            (path.reduce((acc, key) => acc && acc[key], strings) || {})[key] ===
+            undefined
 
           let slice = Math.min(
             ...lines.map((x, i) =>
@@ -209,7 +209,7 @@ exports.serializeStrings = function(
 
           return [
             indent,
-            unused ? '/* unused */' : '',
+            unused ? '/* unused */ ' : '',
             `${JSON.stringify(key)}: ${value},`
           ].join('')
         })
@@ -227,5 +227,5 @@ exports.serializeStrings = function(
     }
   }
 
-  return inner({...strings})
+  return inner(mergedStrings)
 }

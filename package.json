@@ -6,8 +6,8 @@
   "bin": "./cli/main.js",
   "scripts": {
     "test": "cd tests && tap",
-    "format": "prettier \"**/*.{js,md}\" --write",
-    "format-watch": "onchange \"**/*.{js,md}\" -- prettier --write {{changed}}"
+    "format": "prettier \"**/*.{js,md}\" \"!tests/tap-snapshots/*\" --write",
+    "format-watch": "onchange \"**/*.{js,md}\" \"!tests/tap-snapshots/*\" -- prettier --write {{changed}}"
   },
   "repository": {
     "type": "git",
