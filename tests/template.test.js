@@ -16,10 +16,6 @@ tap.test('serializeStrings', async tap => {
 
   tap.test('basic serialization', async tap => {
     tap.matchSnapshot(template.serializeStrings(strings))
-    tap.matchSnapshot(
-      template.serializeStrings(strings, {indent: '\t'}),
-      'tab indentation'
-    )
   })
 
   tap.test('correctly indent multiline complex strings', async tap => {
@@ -87,12 +83,12 @@ tap.test('extractStrings', async tap => {
 
       t('Hello World!')
 
-      {
+      let a = () => {
         let t = i18n.context('context2')
 
         t(p => `Hello World ${p.name}!`, {name: 'Yichuan'})
 
-        function a() {
+        function b() {
           t(p => `Good day, ${p.name}`, {name: 'Yichuan'})
         }
       }

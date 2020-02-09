@@ -1,6 +1,7 @@
-const {getKey} = require('./main')
 const {parse} = require('@babel/parser')
 const traverse = require('@babel/traverse').default
+const prettier = require('prettier')
+const {getKey} = require('./main')
 
 function safeEval(input, fallback = null) {
   try {
@@ -178,7 +179,7 @@ exports.extractStrings = function(code, {dolmIdentifier = 'dolm'} = {}) {
 
 exports.serializeStrings = function(
   strings,
-  {existingStrings = {}, indent = '  ', lineEnding = '\n'} = {}
+  {existingStrings = {}, prettierOptions = {}, lineEnding = '\n'} = {}
 ) {
   let inner = (obj, path = []) => {
     if (!obj) {
@@ -194,30 +195,12 @@ exports.serializeStrings = function(
       Object.keys(obj)
         .sort()
         .map(key => {
-          let lines = inner(obj[key], [...path, key]).split(lineEnding)
+          let value = inner(obj[key], [...path, key])
           let unused =
             (path.reduce((acc, key) => acc && acc[key], strings) || {})[key] ===
             undefined
 
-          let slice = Math.min(
-            ...lines.map((x, i) =>
-              i === 0 ? Infinity : x.match(/^\s*/)[0].length
-            )
-          )
-
-          let extraIndent =
-            lines.length >= 2 && lines[1].match(/^\s*/)[0].length === slice
-
-          let value = lines
-            .map((line, i) =>
-              i === 0
-                ? line
-                : `${indent}${extraIndent ? indent : ''}${line.slice(slice)}`
-            )
-            .join(lineEnding)
-
           return [
-            indent,
             unused ? '/* unused */ ' : '',
             `${JSON.stringify(key)}: ${value},`
           ].join('')
@@ -236,5 +219,8 @@ exports.serializeStrings = function(
     }
   }
 
-  return inner(mergedStrings)
+  return prettier.format(inner(mergedStrings), {
+    parser: 'json',
+    ...prettierOptions
+  })
 }
