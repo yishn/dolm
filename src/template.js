@@ -33,7 +33,7 @@ function isFunctionCall(node, functionName) {
   )
 }
 
-function getContextAssignment(node) {
+function getContextAssignment(node, dolmIdentifier) {
   let [idNode, assignmentNode] =
     node.type === 'VariableDeclarator' && node.id != null && node.init != null
       ? [node.id, node.init]
@@ -88,7 +88,7 @@ exports.extractStrings = function(code, {dolmIdentifier = 'dolm'} = {}) {
 
       // Detect context calls
 
-      let contextAssignment = getContextAssignment(node)
+      let contextAssignment = getContextAssignment(node, dolmIdentifier)
 
       if (contextAssignment != null) {
         let [translatorFunctions] = translatorFunctionsStack.slice(-1)
@@ -145,16 +145,19 @@ exports.extractStrings = function(code, {dolmIdentifier = 'dolm'} = {}) {
                 )
                 .map(node => node.key.name)
 
-        let key = getKey(
+        let input =
           keyNode.type === 'StringLiteral'
             ? keyNode.value
-            : safeEval(code.slice(keyNode.start, keyNode.end)),
+            : safeEval(code.slice(keyNode.start, keyNode.end))
+
+        let key = getKey(
+          input,
           Object.assign({}, ...parameters.map(p => ({[p]: ''})))
         )
 
         if (key != null) {
           if (strings[context] == null) strings[context] = {}
-          strings[context][key] = null
+          strings[context][key] = input
         }
       }
     },
@@ -233,5 +236,5 @@ exports.serializeStrings = function(
     }
   }
 
-  return inner(mergedStrings)
+  return inner(mergedStrings).replace(/\r/g, '')
 }

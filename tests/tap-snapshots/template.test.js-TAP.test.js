@@ -5,6 +5,43 @@
  * Make sure to inspect the output below.  Do not ignore changes!
  */
 'use strict'
+exports[`template.test.js TAP extractStrings basic extraction > must match snapshot 1`] = `
+{
+  "context1": {
+    "Good day": "Good day",
+    "Hello World!": "Hello World!",
+  },
+  "context2": {
+    "Good day, \${name}": p => \`Good day, \${p.name}\`,
+    "Hello World \${name}!": p => \`Hello World \${p.name}!\`,
+  },
+}
+`
+
+exports[`template.test.js TAP extractStrings handle scopes correctly > must match snapshot 1`] = `
+{
+  "context1": {
+    "Good day": "Good day",
+    "Hello World!": "Hello World!",
+  },
+  "context2": {
+    "Good day, \${name}": p => \`Good day, \${p.name}\`,
+    "Hello World \${name}!": p => \`Hello World \${p.name}!\`,
+  },
+}
+`
+
+exports[`template.test.js TAP extractStrings use global t function > must match snapshot 1`] = `
+{
+  "context1": {
+    "Hello World!": "Hello World!",
+  },
+  "context2": {
+    "Hello World \${name}!": p => \`Hello World \${p.name}!\`,
+  },
+}
+`
+
 exports[`template.test.js TAP serializeStrings basic serialization > must match snapshot 1`] = `
 {
   "context1": {
