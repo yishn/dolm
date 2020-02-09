@@ -1,3 +1,4 @@
+const {getKey} = require('./main')
 const {parse} = require('@babel/parser')
 const traverse = require('@babel/traverse').default
 
@@ -42,20 +43,22 @@ function getContextAssignment(node) {
   if (
     idNode != null &&
     idNode.type === 'Identifier' &&
-    assignmentNode != null &&
-    isObjectMethodCall(assignmentNode, 'dolm', 'context') &&
-    assignmentNode.arguments != null &&
-    assignmentNode.arguments.length >= 1 &&
-    assignmentNode.arguments[0].type === 'StringLiteral'
+    assignmentNode != null
   ) {
     let id = idNode.name
-    let context = assignmentNode.arguments[0].value
+    let context =
+      isObjectMethodCall(assignmentNode, dolmIdentifier, 'context') &&
+      assignmentNode.arguments != null &&
+      assignmentNode.arguments.length >= 1 &&
+      assignmentNode.arguments[0].type === 'StringLiteral'
+        ? assignmentNode.arguments[0].value
+        : null
 
     return {id, context}
   }
 }
 
-exports.extractStrings = function(code) {
+exports.extractStrings = function(code, {dolmIdentifier = 'dolm'} = {}) {
   let strings = {}
   let translatorFunctionsStack = [{}]
 
@@ -85,7 +88,12 @@ exports.extractStrings = function(code) {
 
       if (contextAssignment != null) {
         let [translatorFunctions] = translatorFunctionsStack.slice(-1)
-        translatorFunctions[contextAssignment.id] = contextAssignment.context
+
+        if (contextAssignment.context != null) {
+          translatorFunctions[contextAssignment.id] = contextAssignment.context
+        } else {
+          delete translatorFunctions[contextAssignment.id]
+        }
       }
 
       // Detect t calls
@@ -93,7 +101,7 @@ exports.extractStrings = function(code) {
       let context, keyNode, parametersNode
 
       if (
-        isObjectMethodCall(node, 'dolm', 't') &&
+        isObjectMethodCall(node, dolmIdentifier, 't') &&
         node.arguments.length >= 2 &&
         node.arguments[0].type === 'StringLiteral'
       ) {
@@ -121,21 +129,24 @@ exports.extractStrings = function(code) {
         keyNode != null &&
         (parametersNode == null || parametersNode.type === 'ObjectExpression')
       ) {
-        let key =
-          keyNode.type === 'StringLiteral'
-            ? keyNode.value
-            : safeEval(code.slice(keyNode.start, keyNode.end))
         let parameters =
           parametersNode == null
             ? []
-            : Object.keys(
-                safeEval(code.slice(parametersNode.start, parametersNode.end))
-              )
+            : parametersNode.properties
+                .filter(
+                  node =>
+                    node.type === 'ObjectProperty' &&
+                    node.key != null &&
+                    node.key.type === 'Identifier'
+                )
+                .map(node => node.key.name)
 
-        if (typeof key === 'function')
-          key = key(
-            Object.assign({}, ...parameters.map(p => ({[p]: `\${${p}}`})))
-          ).toString()
+        let key = getKey(
+          keyNode.type === 'StringLiteral'
+            ? keyNode.value
+            : safeEval(code.slice(keyNode.start, keyNode.end)),
+          Object.assign({}, ...parameters.map(p => ({[p]: ''})))
+        )
 
         if (strings[context] == null) strings[context] = {}
         strings[context][key] = null
@@ -156,32 +167,60 @@ exports.extractStrings = function(code) {
   return strings
 }
 
-console.log(
-  exports.extractStrings(`
-    const t = dolm.context('complex') // non-existent context
-
-    t(p => \`My name is \${p.name}\`, {name: 'Yichuan'})
-    // => "My name is Yichuan"
-
-    // Or equivalently:
-    dolm.t('complex2', p => \`My name is \${p.name}\`, {name: 'Yichuan'})
-
-    {
-      let t = dolm.context('hi')
-
-      t(p => \`I have \${['no apples', 'one apple'][p.count] || \`\${p.count} apples\`}\`, {
-        count: 1
-      })
-      // => "I have one apple"
+exports.serializeStrings = function(
+  strings,
+  {existingStrings = {}, indent = '  '} = {}
+) {
+  let inner = (obj, path = []) => {
+    if (!obj) {
+      return 'null'
+    } else if (typeof obj === 'function') {
+      return obj.toString()
+    } else if (typeof obj !== 'object') {
+      return JSON.stringify(`${obj}`)
     }
 
-    t('test')
+    return [
+      '{',
+      Object.keys(obj)
+        .sort()
+        .map(key => {
+          let lines = inner(obj[key], [...path, key]).split('\n')
+          let unused =
+            (path.reduce((acc, key) => acc && acc[key], strings) || {})[key] ==
+            null
 
-    // Or equivalently:
-    dolm.t(
-      'complex2',
-      p => \`I have \${['no apples', 'one apple'][p.count] || \`\${p.count} apples\`}\`,
-      {count: 1}
-    )
-  `)
-)
+          let slice = Math.min(
+            ...lines.map((x, i) =>
+              i === 0 ? Infinity : x.match(/^\s*/)[0].length
+            )
+          )
+
+          let value = lines
+            .map((line, i) =>
+              i === 0 ? line : `${indent}${line.slice(slice)}`
+            )
+            .join('\n')
+
+          return [
+            indent,
+            unused ? '/* unused */' : '',
+            `${JSON.stringify(key)}: ${value},`
+          ].join('')
+        })
+        .join('\n'),
+      '}'
+    ].join('\n')
+  }
+
+  let mergedStrings = {...existingStrings}
+
+  for (let context in strings) {
+    mergedStrings[context] = {
+      ...(mergedStrings[context] || {}),
+      ...strings[context]
+    }
+  }
+
+  return inner({...strings})
+}
