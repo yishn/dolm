@@ -4,7 +4,7 @@
   "description": "A tiny internationalization library.",
   "main": "./src/main.js",
   "scripts": {
-    "test": "tap tests/*.test.js"
+    "test": "tap tests/*.test.js --no-coverage"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,12 @@
     "url": "https://github.com/yishn/dolm/issues"
   },
   "homepage": "https://github.com/yishn/dolms",
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "bracketSpacing": false,
+    "proseWrap": "always"
+  },
   "devDependencies": {
     "tap": "^14.10.6"
   }
