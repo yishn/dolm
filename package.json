@@ -22,6 +22,6 @@
   },
   "homepage": "https://github.com/yishn/dolms",
   "devDependencies": {
-    "tap": "^12.6.0"
+    "tap": "^14.10.6"
   }
 }
