@@ -2,8 +2,12 @@ const {getKey} = require('./main')
 const {parse} = require('@babel/parser')
 const traverse = require('@babel/traverse').default
 
-function safeEval(input) {
-  return Function(`"use strict"; return (${input});`)()
+function safeEval(input, fallback = null) {
+  try {
+    return Function(`"use strict"; return (${input});`)()
+  } catch (err) {
+    return fallback
+  }
 }
 
 function isObjectMethodCall(node, objName, methodName) {
@@ -148,8 +152,10 @@ exports.extractStrings = function(code, {dolmIdentifier = 'dolm'} = {}) {
           Object.assign({}, ...parameters.map(p => ({[p]: ''})))
         )
 
-        if (strings[context] == null) strings[context] = {}
-        strings[context][key] = null
+        if (key != null) {
+          if (strings[context] == null) strings[context] = {}
+          strings[context][key] = null
+        }
       }
     },
 

@@ -1,4 +1,6 @@
 exports.getKey = (input, params = {}) => {
+  if (input == null) return null
+
   return typeof input !== 'function'
     ? input.toString()
     : input(
