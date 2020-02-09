@@ -7,14 +7,20 @@ async function test() {
       let t = dolm.context('non-existent')
 
       tap.equal(t('Hello World!'), 'Hello World!')
-      tap.equal(t(p => `Hello ${p.name}`, {name: 'Yichuan'}), 'Hello Yichuan')
+      tap.equal(
+        t(p => `Hello ${p.name}`, {name: 'Yichuan'}),
+        'Hello Yichuan'
+      )
     }),
 
     tap.test('get non-existent strings in existing context', async tap => {
       let t = dolm.context('special')
 
       tap.equal(t('Hello World!'), 'Hello World!')
-      tap.equal(t(p => `Hello ${p.name}`, {name: 'Yichuan'}), 'Hello Yichuan')
+      tap.equal(
+        t(p => `Hello ${p.name}`, {name: 'Yichuan'}),
+        'Hello Yichuan'
+      )
     }),
 
     tap.test('get existing strings', async tap => {
@@ -22,7 +28,8 @@ async function test() {
 
       tap.equal(t('Hello World!'), 'Hallo Welt!')
 
-      let complexString = p => `I have ${['no', 'one'][p.count] || p.count} apple${p !== 1 ? 's' : ''}`
+      let complexString = p =>
+        `I have ${['no', 'one'][p.count] || p.count} apple${p !== 1 ? 's' : ''}`
 
       tap.equal(t(complexString, {count: 0}), 'Ich habe keine Äpfel')
       tap.equal(t(complexString, {count: 1}), 'Ich habe einen Apfel')
@@ -32,11 +39,21 @@ async function test() {
     tap.test('get existing strings directly', async tap => {
       tap.equal(dolm.t('general', 'Hello World!'), 'Hallo Welt!')
 
-      let complexString = p => `I have ${['no', 'one'][p.count] || p.count} apple${p !== 1 ? 's' : ''}`
+      let complexString = p =>
+        `I have ${['no', 'one'][p.count] || p.count} apple${p !== 1 ? 's' : ''}`
 
-      tap.equal(dolm.t('general', complexString, {count: 0}), 'Ich habe keine Äpfel')
-      tap.equal(dolm.t('general', complexString, {count: 1}), 'Ich habe einen Apfel')
-      tap.equal(dolm.t('general', complexString, {count: 2}), 'Ich habe 2 Äpfel')
+      tap.equal(
+        dolm.t('general', complexString, {count: 0}),
+        'Ich habe keine Äpfel'
+      )
+      tap.equal(
+        dolm.t('general', complexString, {count: 1}),
+        'Ich habe einen Apfel'
+      )
+      tap.equal(
+        dolm.t('general', complexString, {count: 2}),
+        'Ich habe 2 Äpfel'
+      )
     })
   ])
 
@@ -45,9 +62,11 @@ async function test() {
 
     tap.equal(serialized.translatedCount, 4)
     tap.equal(serialized.untranslatedCount, 4)
-    tap.equal(serialized.complete, .5)
+    tap.equal(serialized.complete, 0.5)
 
-    tap.equal(serialized.js, `
+    tap.equal(
+      serialized.js,
+      `
 {
   "general": {
     "Hello World!": "Hallo Welt!",
@@ -64,7 +83,8 @@ async function test() {
     /* unused */ "My name is \${name}": p => \`Ich heiße \${p.name}\`,
   },
 }
-    `.trim())
+    `.trim()
+    )
   })
 }
 

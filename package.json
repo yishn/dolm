@@ -4,7 +4,9 @@
   "description": "A tiny internationalization library.",
   "main": "./src/main.js",
   "scripts": {
-    "test": "tap tests/*.test.js --no-coverage"
+    "test": "tap tests/*.test.js --no-coverage",
+    "format": "prettier \"**/*.{js,md}\" --write",
+    "format-watch": "onchange \"**/*.{js,md}\" -- prettier --write {{changed}}"
   },
   "repository": {
     "type": "git",
@@ -28,6 +30,8 @@
     "proseWrap": "always"
   },
   "devDependencies": {
+    "onchange": "^6.1.0",
+    "prettier": "1.19.1",
     "tap": "^14.10.6"
   }
 }
