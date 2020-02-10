@@ -3,11 +3,12 @@
   "version": "0.4.2-alpha",
   "description": "A tiny internationalization library.",
   "main": "./src/main.js",
-  "bin": "./cli/main.js",
+  "bin": "./src/cli/main.js",
   "scripts": {
     "test": "cd tests && tap",
     "format": "prettier \"**/*.{js,md}\" \"!tests/tap-snapshots/*\" --write",
-    "format-watch": "onchange \"**/*.{js,md}\" \"!tests/tap-snapshots/*\" -- prettier --write {{changed}}"
+    "format-watch": "onchange \"**/*.{js,md}\" \"!tests/tap-snapshots/*\" -- prettier --write {{changed}}",
+    "dolm": "node ./src/cli/main.js"
   },
   "repository": {
     "type": "git",
@@ -33,7 +34,9 @@
   "dependencies": {
     "@babel/parser": "^7.8.4",
     "@babel/traverse": "^7.8.4",
-    "prettier": "1.19.1"
+    "globby": "^11.0.0",
+    "prettier": "1.19.1",
+    "yargs": "^15.1.0"
   },
   "devDependencies": {
     "onchange": "^6.1.0",

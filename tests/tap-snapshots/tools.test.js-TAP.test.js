@@ -5,7 +5,7 @@
  * Make sure to inspect the output below.  Do not ignore changes!
  */
 'use strict'
-exports[`template.test.js TAP extractStrings basic extraction > must match snapshot 1`] = `
+exports[`tools.test.js TAP extractStrings basic extraction > must match snapshot 1`] = `
 {
   "context1": {
     "Good day": "Good day",
@@ -19,7 +19,7 @@ exports[`template.test.js TAP extractStrings basic extraction > must match snaps
 
 `
 
-exports[`template.test.js TAP extractStrings handle scopes correctly > must match snapshot 1`] = `
+exports[`tools.test.js TAP extractStrings handle scopes correctly > must match snapshot 1`] = `
 {
   "context1": {
     "Good day": "Good day",
@@ -33,7 +33,7 @@ exports[`template.test.js TAP extractStrings handle scopes correctly > must matc
 
 `
 
-exports[`template.test.js TAP extractStrings use global t function > must match snapshot 1`] = `
+exports[`tools.test.js TAP extractStrings use global t function > must match snapshot 1`] = `
 {
   "context1": {
     "Hello World!": "Hello World!"
@@ -45,7 +45,7 @@ exports[`template.test.js TAP extractStrings use global t function > must match 
 
 `
 
-exports[`template.test.js TAP serializeStrings basic serialization > must match snapshot 1`] = `
+exports[`tools.test.js TAP serializeStrings basic serialization > must match snapshot 1`] = `
 {
   "context1": {
     "Good day": "Guten Tag",
@@ -59,7 +59,7 @@ exports[`template.test.js TAP serializeStrings basic serialization > must match 
 
 `
 
-exports[`template.test.js TAP serializeStrings correctly indent multiline complex strings > must match snapshot 1`] = `
+exports[`tools.test.js TAP serializeStrings correctly indent multiline complex strings > must match snapshot 1`] = `
 {
   "context1": {
     "Hello \${name}, meeting you in this wonderful world has been a pleasure!": p =>
@@ -72,7 +72,7 @@ exports[`template.test.js TAP serializeStrings correctly indent multiline comple
 
 `
 
-exports[`template.test.js TAP serializeStrings correctly mark unused strings > must match snapshot 1`] = `
+exports[`tools.test.js TAP serializeStrings correctly mark unused strings > must match snapshot 1`] = `
 {
   "context1": {
     /* unused */ "Good day": "Guten Tag",

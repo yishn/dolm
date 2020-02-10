@@ -1,6 +1,6 @@
 const tap = require('tap')
 const dolm = require('./data')
-const template = require('../src/template')
+const tools = require('../src/tools')
 
 tap.test('serializeStrings', async tap => {
   let strings = {
@@ -15,12 +15,12 @@ tap.test('serializeStrings', async tap => {
   }
 
   tap.test('basic serialization', async tap => {
-    tap.matchSnapshot(template.serializeStrings(strings))
+    tap.matchSnapshot(tools.serializeStrings(strings))
   })
 
   tap.test('correctly indent multiline complex strings', async tap => {
     tap.matchSnapshot(
-      template.serializeStrings({
+      tools.serializeStrings({
         context1: {
           'Hello World ${name}!': p => {
             return `Hallo Welt ${p.name}!`
@@ -34,7 +34,7 @@ tap.test('serializeStrings', async tap => {
 
   tap.test('correctly mark unused strings', async tap => {
     tap.matchSnapshot(
-      template.serializeStrings(
+      tools.serializeStrings(
         {
           context1: {
             'Hello World!': 'Hallo Welt!'
@@ -62,7 +62,7 @@ tap.test('extractStrings', async tap => {
     }
 
     tap.matchSnapshot(
-      template.serializeStrings(template.extractStrings(codeFunc.toString()))
+      tools.serializeStrings(tools.extractStrings(codeFunc.toString()))
     )
   })
 
@@ -73,7 +73,7 @@ tap.test('extractStrings', async tap => {
     }
 
     tap.matchSnapshot(
-      template.serializeStrings(template.extractStrings(codeFunc.toString()))
+      tools.serializeStrings(tools.extractStrings(codeFunc.toString()))
     )
   })
 
@@ -97,8 +97,8 @@ tap.test('extractStrings', async tap => {
     }
 
     tap.matchSnapshot(
-      template.serializeStrings(
-        template.extractStrings(codeFunc.toString(), {dolmIdentifier: 'i18n'})
+      tools.serializeStrings(
+        tools.extractStrings(codeFunc.toString(), {dolmIdentifier: 'i18n'})
       )
     )
   })
