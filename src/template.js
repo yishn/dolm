@@ -179,7 +179,7 @@ exports.extractStrings = function(code, {dolmIdentifier = 'dolm'} = {}) {
 
 exports.serializeStrings = function(
   strings,
-  {existingStrings = {}, prettierOptions = {}, lineEnding = '\n'} = {}
+  {existingStrings = {}, prettierOptions = {}} = {}
 ) {
   let inner = (obj, path = []) => {
     if (!obj) {
@@ -205,9 +205,9 @@ exports.serializeStrings = function(
             `${JSON.stringify(key)}: ${value},`
           ].join('')
         })
-        .join(lineEnding),
+        .join('\n'),
       '}'
-    ].join(lineEnding)
+    ].join('\n')
   }
 
   let mergedStrings = {...existingStrings}
