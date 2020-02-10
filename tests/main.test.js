@@ -1,5 +1,6 @@
 const tap = require('tap')
-const dolm = require('./data')
+const data = require('./data.i18n')
+const dolm = require('..').load(data)
 
 tap.test('get non-existent context', async tap => {
   let t = dolm.context('non-existent')

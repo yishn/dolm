@@ -1,5 +1,5 @@
 const tap = require('tap')
-const dolm = require('./data')
+const dolm = require('..')
 const tools = require('../src/tools')
 
 tap.test('serializeStrings', async tap => {

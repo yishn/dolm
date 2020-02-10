@@ -1,6 +1,4 @@
-const dolm = require('..')
-
-let strings = {
+module.exports = {
   general: {
     'Hello World!': 'Hallo Welt!',
     'I have ${count} apples': p =>
@@ -13,5 +11,3 @@ let strings = {
     'My name is ${name}': p => `Ich heiße ${p.name}`
   }
 }
-
-module.exports = dolm.load(strings)
