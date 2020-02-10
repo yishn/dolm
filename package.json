@@ -6,8 +6,8 @@
   "bin": "./src/cli/main.js",
   "scripts": {
     "test": "cd tests && tap",
-    "format": "prettier \"**/*.{js,md}\" \"!tests/tap-snapshots/*\" --write",
-    "format-watch": "onchange \"**/*.{js,md}\" \"!tests/tap-snapshots/*\" -- prettier --write {{changed}}",
+    "format": "prettier \"**/*.{{j,t}s,md}\" \"!tests/tap-snapshots/*\" --write",
+    "format-watch": "onchange \"**/*.{{j,t}s,md}\" \"!tests/tap-snapshots/*\" -- prettier --write {{changed}}",
     "dolm": "node ./src/cli/main.js"
   },
   "repository": {
