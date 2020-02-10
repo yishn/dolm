@@ -1,4 +1,4 @@
-# dolm [![Build Status](https://travis-ci.org/yishn/dolm.svg?branch=master)](https://travis-ci.org/yishn/dolm)
+# dolm [![CI](https://github.com/yishn/dolm/workflows/CI/badge.svg?branch=master&event=push)](https://github.com/yishn/dolm/actions)
 
 A tiny internationalization library.
 
