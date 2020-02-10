@@ -43,7 +43,7 @@ tap.test('serializeStrings', async tap => {
             Bye: 'Tschüss'
           }
         },
-        {usedStrings: strings}
+        {templateStrings: strings}
       )
     )
   })

@@ -185,7 +185,7 @@ exports.extractStrings = function(
 
 exports.serializeStrings = function(
   strings,
-  {usedStrings = null, prettierOptions = {}} = {}
+  {templateStrings = null, prettierOptions = {}} = {}
 ) {
   let inner = (obj, path = []) => {
     if (!obj) {
@@ -203,8 +203,8 @@ exports.serializeStrings = function(
         .map(key => {
           let value = inner(obj[key], [...path, key])
           let unused =
-            usedStrings != null &&
-            (path.reduce((acc, key) => acc && acc[key], usedStrings) || {})[
+            templateStrings != null &&
+            (path.reduce((acc, key) => acc && acc[key], templateStrings) || {})[
               key
             ] === undefined
 
@@ -219,7 +219,9 @@ exports.serializeStrings = function(
   }
 
   let merged =
-    usedStrings == null ? strings : exports.mergeStrings([usedStrings, strings])
+    templateStrings == null
+      ? strings
+      : exports.mergeStrings([templateStrings, strings])
 
   return prettier.format(inner(merged), {
     parser: 'json',
