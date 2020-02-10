@@ -21,16 +21,14 @@ exports.load = strings => {
     },
 
     t(context, input, params = {}) {
-      return instance.context(context)(input, params)
+      let key = exports.getKey(input, params)
+      let value = (strings[context] || {})[key] || input
+
+      return typeof value !== 'function' ? value : value(params)
     },
 
     context(context) {
-      return (input, params = {}) => {
-        let key = exports.getKey(input, params)
-        let value = (strings[context] || {})[key] || input
-
-        return typeof value !== 'function' ? value : value(params)
-      }
+      return (input, params = {}) => instance.t(context, input, params)
     }
   }
 
