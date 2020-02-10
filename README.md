@@ -109,3 +109,20 @@ best to let dolm generate a template strings object with its CLI tool.
 
 It's theoretically possible that two different default implementations generate
 the same key, which may cause issues, but in practice, this is rarely a problem.
+
+## CLI
+
+```
+Usage: dolm <command> [args]
+
+Commands:
+  dolm gen [args] <glob..>            Generates an empty strings template by
+                                      extracting strings from source code
+  dolm update <template> <glob..>     Updates existing strings files by marking
+                                      unused strings and appending new strings
+                                      from the strings template file
+
+Options:
+  --version  Show version number                                       [boolean]
+  --help     Show help                                                 [boolean]
+```
