@@ -213,16 +213,9 @@ exports.serializeStrings = function(
     ].join('\n')
   }
 
-  let mergedStrings = {...existingStrings}
+  let merged = exports.mergeStrings([existingStrings, strings])
 
-  for (let context in strings) {
-    mergedStrings[context] = {
-      ...(mergedStrings[context] || {}),
-      ...strings[context]
-    }
-  }
-
-  return prettier.format(inner(mergedStrings), {
+  return prettier.format(inner(merged), {
     parser: 'json',
     ...prettierOptions
   })
