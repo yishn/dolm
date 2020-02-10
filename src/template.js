@@ -3,14 +3,6 @@ const traverse = require('@babel/traverse').default
 const prettier = require('prettier')
 const {getKey} = require('./main')
 
-function safeEval(input, fallback = null) {
-  try {
-    return Function(`"use strict"; return (${input});`)()
-  } catch (err) {
-    return fallback
-  }
-}
-
 function isObjectMethodCall(node, objName, methodName) {
   return (
     node.type === 'CallExpression' &&
@@ -60,6 +52,14 @@ function getContextAssignment(node, dolmIdentifier) {
         : null
 
     return {id, context}
+  }
+}
+
+exports.safeEval = function(input, fallback = null) {
+  try {
+    return Function(`"use strict"; return ${input};`)()
+  } catch (err) {
+    return fallback
   }
 }
 
@@ -149,7 +149,7 @@ exports.extractStrings = function(code, {dolmIdentifier = 'dolm'} = {}) {
         let input =
           keyNode.type === 'StringLiteral'
             ? keyNode.value
-            : safeEval(code.slice(keyNode.start, keyNode.end))
+            : exports.safeEval(code.slice(keyNode.start, keyNode.end))
 
         let key = getKey(
           input,
