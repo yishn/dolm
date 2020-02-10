@@ -45,6 +45,19 @@ exports[`tools.test.js TAP extractStrings use global t function > must match sna
 
 `
 
+exports[`tools.test.js TAP mergeStrings > must match snapshot 1`] = `
+{
+  "context1": {
+    "Hello World": "Hallo Welt!",
+    "Hello world, \${name}": p => \`Hallo Welt, \${p.name}\`
+  },
+  "context2": {
+    "Goodbye": "Auf Wiedersehen"
+  }
+}
+
+`
+
 exports[`tools.test.js TAP serializeStrings basic serialization > must match snapshot 1`] = `
 {
   "context1": {

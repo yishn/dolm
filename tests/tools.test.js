@@ -103,3 +103,28 @@ tap.test('extractStrings', async tap => {
     )
   })
 })
+
+tap.test('mergeStrings', async tap => {
+  tap.matchSnapshot(
+    tools.serializeStrings(
+      tools.mergeStrings([
+        {
+          context1: {
+            'Hello World': 'Hallo Welt'
+          }
+        },
+        {
+          context2: {
+            Goodbye: 'Auf Wiedersehen'
+          }
+        },
+        {
+          context1: {
+            'Hello World': 'Hallo Welt!',
+            'Hello world, ${name}': p => `Hallo Welt, ${p.name}`
+          }
+        }
+      ])
+    )
+  )
+})

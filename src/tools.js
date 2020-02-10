@@ -227,3 +227,18 @@ exports.serializeStrings = function(
     ...prettierOptions
   })
 }
+
+exports.mergeStrings = function(stringsArr) {
+  let result = {}
+
+  for (let strings of stringsArr) {
+    for (let context in strings) {
+      result[context] = {
+        ...(result[context] || {}),
+        ...strings[context]
+      }
+    }
+  }
+
+  return result
+}
