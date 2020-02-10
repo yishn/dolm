@@ -57,7 +57,10 @@ function getContextAssignment(node, dolmIdentifier) {
 
 exports.safeEval = function(input, fallback = null) {
   try {
-    return Function(`"use strict"; return ${input};`)()
+    return Function(`
+      "use strict"
+      return (module => (${input}))({})
+    `)()
   } catch (err) {
     return fallback
   }
@@ -182,7 +185,7 @@ exports.extractStrings = function(
 
 exports.serializeStrings = function(
   strings,
-  {existingStrings = {}, prettierOptions = {}} = {}
+  {usedStrings = null, prettierOptions = {}} = {}
 ) {
   let inner = (obj, path = []) => {
     if (!obj) {
@@ -200,8 +203,10 @@ exports.serializeStrings = function(
         .map(key => {
           let value = inner(obj[key], [...path, key])
           let unused =
-            (path.reduce((acc, key) => acc && acc[key], strings) || {})[key] ===
-            undefined
+            usedStrings != null &&
+            (path.reduce((acc, key) => acc && acc[key], usedStrings) || {})[
+              key
+            ] === undefined
 
           return [
             unused ? '/* unused */ ' : '',
@@ -213,7 +218,8 @@ exports.serializeStrings = function(
     ].join('\n')
   }
 
-  let merged = exports.mergeStrings([existingStrings, strings])
+  let merged =
+    usedStrings == null ? strings : exports.mergeStrings([usedStrings, strings])
 
   return prettier.format(inner(merged), {
     parser: 'json',

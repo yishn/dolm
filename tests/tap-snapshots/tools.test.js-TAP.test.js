@@ -88,15 +88,15 @@ exports[`tools.test.js TAP serializeStrings correctly indent multiline complex s
 exports[`tools.test.js TAP serializeStrings correctly mark unused strings > must match snapshot 1`] = `
 {
   "context1": {
-    /* unused */ "Good day": "Guten Tag",
+    "Good day": "Guten Tag",
     "Hello World!": "Hallo Welt!"
   },
-  /* unused */ "context2": {
-    /* unused */ "Good day, \${name}": null,
-    /* unused */ "Hello World \${name}!": p => \`Hallo Welt \${p.name}!\`
+  "context2": {
+    "Good day, \${name}": null,
+    "Hello World \${name}!": p => \`Hallo Welt \${p.name}!\`
   },
-  "newContext": {
-    "Bye": "Tschüss"
+  /* unused */ "newContext": {
+    /* unused */ "Bye": "Tschüss"
   }
 }
 
