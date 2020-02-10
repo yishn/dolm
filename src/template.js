@@ -63,7 +63,10 @@ exports.safeEval = function(input, fallback = null) {
   }
 }
 
-exports.extractStrings = function(code, {dolmIdentifier = 'dolm'} = {}) {
+exports.extractStrings = function(
+  code,
+  {dolmIdentifier = 'dolm', generateEmptyTemplate = false} = {}
+) {
   let strings = {}
   let translatorFunctionsStack = [{}]
 
@@ -158,7 +161,7 @@ exports.extractStrings = function(code, {dolmIdentifier = 'dolm'} = {}) {
 
         if (key != null) {
           if (strings[context] == null) strings[context] = {}
-          strings[context][key] = input
+          strings[context][key] = generateEmptyTemplate ? null : input
         }
       }
     },
