@@ -12,7 +12,7 @@ exports.getKey = (input, params = {}) => {
       )
 }
 
-exports.load = strings => {
+exports.load = (strings, getKey = exports.getKey) => {
   let instance = {
     strings,
 
@@ -21,7 +21,7 @@ exports.load = strings => {
     },
 
     t(context, input, params = {}) {
-      let key = exports.getKey(input, params)
+      let key = getKey(input, params)
       let value = (strings[context] || {})[key] || input
 
       return typeof value !== 'function' ? value : value(params)

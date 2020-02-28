@@ -4,19 +4,24 @@ export interface TranslatedStrings {
   }
 }
 
+export type TranslationFunction = ((input: string) => string) &
+  (<P>(input: (p: P) => string, params: P) => string)
+
+export type GetKeyFunction = ((input: string) => string) &
+  (<P>(input: (p: P) => string, params: P) => string)
+
 export interface DolmInstance {
   load(newStrings: TranslatedStrings): void
 
   t(context: string, input: string): string
   t<P>(context: string, input: (p: P) => string, params: P): string
 
-  context(
-    context: string
-  ): ((input: string) => string) &
-    (<P>(input: (p: P) => string, params: P) => string)
+  context(context: string): TranslationFunction
 }
 
-export function getKey(input: string): string
-export function getKey<P>(input: (p: P) => string, params: P): string
+export const getKey: GetKeyFunction
 
-export function load(strings: TranslatedStrings): DolmInstance
+export function load(
+  strings: TranslatedStrings,
+  getKey?: GetKeyFunction
+): DolmInstance
