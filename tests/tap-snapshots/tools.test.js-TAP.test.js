@@ -8,12 +8,12 @@
 exports[`tools.test.js TAP extractStrings basic extraction > must match snapshot 1`] = `
 {
   "context1": {
-    "Good day": "Good day",
-    "Hello World!": "Hello World!"
+    "Hello World!": "Hello World!",
+    "Good day": "Good day"
   },
   "context2": {
-    "Good day, \${name}": p => \`Good day, \${p.name}\`,
-    "Hello World \${name}!": p => \`Hello World \${p.name}!\`
+    "Hello World \${name}!": p => \`Hello World \${p.name}!\`,
+    "Good day, \${name}": p => \`Good day, \${p.name}\`
   }
 }
 
@@ -22,12 +22,12 @@ exports[`tools.test.js TAP extractStrings basic extraction > must match snapshot
 exports[`tools.test.js TAP extractStrings handle scopes correctly > must match snapshot 1`] = `
 {
   "context1": {
-    "Good day": "Good day",
-    "Hello World!": "Hello World!"
+    "Hello World!": "Hello World!",
+    "Good day": "Good day"
   },
   "context2": {
-    "Good day, \${name}": p => \`Good day, \${p.name}\`,
-    "Hello World \${name}!": p => \`Hello World \${p.name}!\`
+    "Hello World \${name}!": p => \`Hello World \${p.name}!\`,
+    "Good day, \${name}": p => \`Good day, \${p.name}\`
   }
 }
 
@@ -61,12 +61,12 @@ exports[`tools.test.js TAP mergeStrings > must match snapshot 1`] = `
 exports[`tools.test.js TAP serializeStrings basic serialization > must match snapshot 1`] = `
 {
   "context1": {
-    "Good day": "Guten Tag",
-    "Hello World!": "Hallo Welt!"
+    "Hello World!": "Hallo Welt!",
+    "Good day": "Guten Tag"
   },
   "context2": {
-    "Good day, \${name}": null,
-    "Hello World \${name}!": p => \`Hallo Welt \${p.name}!\`
+    "Hello World \${name}!": p => \`Hallo Welt \${p.name}!\`,
+    "Good day, \${name}": null
   }
 }
 
@@ -75,11 +75,11 @@ exports[`tools.test.js TAP serializeStrings basic serialization > must match sna
 exports[`tools.test.js TAP serializeStrings correctly indent multiline complex strings > must match snapshot 1`] = `
 {
   "context1": {
-    "Hello \${name}, meeting you in this wonderful world has been a pleasure!": p =>
-      \`Hallo \${p.name}, dich in dieser wunderschönen Welt zu treffen war mir ein Vergnügen!\`,
     "Hello World \${name}!": p => {
       return \`Hallo Welt \${p.name}!\`;
-    }
+    },
+    "Hello \${name}, meeting you in this wonderful world has been a pleasure!": p =>
+      \`Hallo \${p.name}, dich in dieser wunderschönen Welt zu treffen war mir ein Vergnügen!\`
   }
 }
 
@@ -88,12 +88,12 @@ exports[`tools.test.js TAP serializeStrings correctly indent multiline complex s
 exports[`tools.test.js TAP serializeStrings correctly mark unused strings > must match snapshot 1`] = `
 {
   "context1": {
-    "Good day": "Guten Tag",
-    "Hello World!": "Hallo Welt!"
+    "Hello World!": "Hallo Welt!",
+    "Good day": "Guten Tag"
   },
   "context2": {
-    "Good day, \${name}": null,
-    "Hello World \${name}!": p => \`Hallo Welt \${p.name}!\`
+    "Hello World \${name}!": p => \`Hallo Welt \${p.name}!\`,
+    "Good day, \${name}": null
   },
   /* unused */ "newContext": {
     /* unused */ "Bye": "Tschüss"
