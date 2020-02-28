@@ -199,7 +199,6 @@ exports.serializeStrings = function(
     return [
       '{',
       Object.keys(obj)
-        .sort()
         .map(key => {
           let value = inner(obj[key], [...path, key])
           let unused =
