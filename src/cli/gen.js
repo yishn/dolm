@@ -9,11 +9,16 @@ module.exports = function(argv) {
 
   let stringsArr = paths.map(path => {
     let content = readFileSync(path, 'utf8')
+    let time = Date.now()
+    if (argv.output != null) process.stdout.write(path)
 
-    return tools.extractStrings(content, {
+    let result = tools.extractStrings(content, {
       dolmIdentifier: argv.dolmIdentifier,
       generateEmptyTemplate: argv.template
     })
+
+    if (argv.output != null) process.stdout.write(` ${Date.now() - time}ms\n`)
+    return result
   })
 
   let strings = tools.mergeStrings(stringsArr)
