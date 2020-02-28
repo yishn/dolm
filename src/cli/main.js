@@ -9,7 +9,7 @@ const argv = yargs
   .usage('Usage: $0 <command> [args]')
   .command(
     'gen [args] <glob..>',
-    'Generates an empty strings template by extracting strings from source code',
+    'Generates a strings file by extracting strings from source code',
     yargs => {
       return yargs
         .positional('glob', {
@@ -20,6 +20,12 @@ const argv = yargs
           default: 'dolm',
           describe: 'Specify variable name of dolm',
           type: 'string'
+        })
+        .option('template', {
+          default: false,
+          alias: 't',
+          describe: 'Generate an empty template file',
+          type: 'boolean'
         })
         .option('output', {
           alias: 'o',

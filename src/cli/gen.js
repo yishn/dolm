@@ -3,8 +3,6 @@ const globby = require('globby')
 const tools = require('../tools')
 
 module.exports = function(argv) {
-  let {dolmIdentifier, output} = argv
-
   let paths = globby.sync(argv.glob, {
     gitignore: true
   })
@@ -13,17 +11,17 @@ module.exports = function(argv) {
     let content = readFileSync(path, 'utf8')
 
     return tools.extractStrings(content, {
-      dolmIdentifier,
-      generateEmptyTemplate: true
+      dolmIdentifier: argv.dolmIdentifier,
+      generateEmptyTemplate: argv.template
     })
   })
 
   let strings = tools.mergeStrings(stringsArr)
   let serialized = 'module.exports = ' + tools.serializeStrings(strings)
 
-  if (output == null) {
+  if (argv.output == null) {
     console.log(serialized)
   } else {
-    writeFileSync(output, serialized)
+    writeFileSync(argv.output, serialized)
   }
 }
