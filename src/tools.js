@@ -1,7 +1,7 @@
 const {parse} = require('@babel/parser')
 const traverse = require('@babel/traverse').default
 const prettier = require('prettier')
-const {getKey} = require('./main')
+const dolm = require('./main')
 
 function isObjectMethodCall(node, objName, methodName) {
   return (
@@ -68,7 +68,11 @@ exports.safeEval = function(input, fallback = null) {
 
 exports.extractStrings = function(
   code,
-  {dolmIdentifier = 'dolm', generateEmptyTemplate = false} = {}
+  {
+    getKey = dolm.getKey,
+    dolmIdentifier = 'dolm',
+    generateEmptyTemplate = false
+  } = {}
 ) {
   let strings = {}
   let translatorFunctionsStack = [{}]

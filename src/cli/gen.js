@@ -1,5 +1,6 @@
 const {readFileSync, writeFileSync} = require('fs')
 const globby = require('globby')
+const dolm = require('../main')
 const tools = require('../tools')
 
 module.exports = function(argv) {
@@ -7,12 +8,18 @@ module.exports = function(argv) {
     gitignore: true
   })
 
+  let getKey =
+    argv.getKey == null
+      ? undefined
+      : tools.safeEval(readFileSync(argv.getKey, 'utf8'))
+
   let stringsArr = paths.map(path => {
     let content = readFileSync(path, 'utf8')
     let time = Date.now()
     if (argv.output != null) process.stdout.write(path)
 
     let result = tools.extractStrings(content, {
+      getKey: getKey(dolm.getKey),
       dolmIdentifier: argv.dolmIdentifier,
       generateEmptyTemplate: argv.template
     })

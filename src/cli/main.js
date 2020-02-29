@@ -16,6 +16,11 @@ const argv = yargs
           describe: 'Glob pattern for source code files',
           type: 'string'
         })
+        .option('get-key', {
+          default: null,
+          describe: 'Specify a getKey function',
+          type: 'string'
+        })
         .option('dolm-identifier', {
           default: 'dolm',
           describe: 'Specify variable name of dolm',
