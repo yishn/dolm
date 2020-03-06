@@ -1,17 +1,19 @@
 #!/usr/bin/env node
 
 const yargs = require('yargs')
-const gen = require('./gen')
-const update = require('./update')
+const genCmd = require('./gen')
+const updateCmd = require('./update')
+const infoCmd = require('./info')
 
 const argv = yargs
+  .scriptName('dolm')
   .locale('en')
   .usage('Usage: $0 <command> [args]')
   .command(
     'gen [args] <glob..>',
     'Generates a strings file by extracting strings from source code',
-    yargs => {
-      return yargs
+    yargs =>
+      yargs
         .positional('glob', {
           describe: 'Glob pattern for source code files',
           type: 'string'
@@ -37,13 +39,12 @@ const argv = yargs
           describe: 'Specify output file path',
           type: 'string'
         })
-    }
   )
   .command(
     'update <template> <glob..>',
     'Updates existing strings files by marking unused strings and appending new strings from the strings template file',
-    yargs => {
-      return yargs
+    yargs =>
+      yargs
         .positional('template', {
           describe: 'Path of the strings template file',
           type: 'string'
@@ -52,16 +53,26 @@ const argv = yargs
           describe: 'Glob pattern for existing strings files',
           type: 'string'
         })
-    }
+  )
+  .command(
+    'info <path>',
+    'Shows progress information about the given strings file',
+    yargs =>
+      yargs.positional('path', {
+        describe: 'The path to the strings file',
+        type: 'string'
+      })
   )
   .help().argv
 
 let command = argv._.shift()
 
 if (command === 'gen') {
-  gen(argv)
+  genCmd(argv)
 } else if (command === 'update') {
-  update(argv)
+  updateCmd(argv)
+} else if (command === 'info') {
+  infoCmd(argv)
 } else {
   yargs.showHelp()
 }

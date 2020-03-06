@@ -261,3 +261,24 @@ exports.mergeStrings = function(stringsArr) {
 
   return result
 }
+
+exports.getStringsInfo = function(strings) {
+  let totalStringsCount = 0
+  let translatedStringsCount = 0
+
+  for (let context in strings) {
+    for (let key in strings[context]) {
+      totalStringsCount++
+
+      if (strings[context][key] != null) {
+        translatedStringsCount++
+      }
+    }
+  }
+
+  return {
+    totalStringsCount,
+    translatedStringsCount,
+    progress: translatedStringsCount / totalStringsCount
+  }
+}

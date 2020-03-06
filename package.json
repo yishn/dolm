@@ -7,8 +7,7 @@
   "scripts": {
     "test": "cd tests && tap",
     "format": "prettier \"**/*.{{j,t}s,md}\" \"!tests/tap-snapshots/*\" --write",
-    "format-watch": "onchange \"**/*.{{j,t}s,md}\" \"!tests/tap-snapshots/*\" -- prettier --write {{changed}}",
-    "dolm": "node ./src/cli/main.js"
+    "format-watch": "onchange \"**/*.{{j,t}s,md}\" \"!tests/tap-snapshots/*\" -- prettier --write {{changed}}"
   },
   "repository": {
     "type": "git",
