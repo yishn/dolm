@@ -1,5 +1,7 @@
 const {readFileSync, writeFileSync} = require('fs')
+const {dirname} = require('path')
 const globby = require('globby')
+const mkdirp = require('mkdirp')
 const dolm = require('../main')
 const tools = require('../tools')
 
@@ -34,6 +36,7 @@ module.exports = function(argv) {
   if (argv.output == null) {
     console.log(serialized)
   } else {
+    mkdirp.sync(dirname(argv.output))
     writeFileSync(argv.output, serialized)
   }
 }
