@@ -1,6 +1,7 @@
 const {readFileSync, writeFileSync} = require('fs')
-const {dirname} = require('path')
+const path = require('path')
 const globby = require('globby')
+const slash = require('slash')
 const mkdirp = require('mkdirp')
 const dolm = require('../main')
 const tools = require('../tools')
@@ -13,7 +14,7 @@ module.exports = function(argv) {
   let getKey =
     argv.getKey == null
       ? dolm.getKey
-      : tools.safeModuleEval(readFileSync(argv.getKey, 'utf8'))
+      : require(slash(path.relative(__filename, path.resolve(argv.getKey))))
 
   let stringsArr = paths.map(path => {
     let content = readFileSync(path, 'utf8')
@@ -36,7 +37,7 @@ module.exports = function(argv) {
   if (argv.output == null) {
     console.log(serialized)
   } else {
-    mkdirp.sync(dirname(argv.output))
+    mkdirp.sync(path.dirname(argv.output))
     writeFileSync(argv.output, serialized)
   }
 }
