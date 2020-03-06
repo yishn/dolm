@@ -4,10 +4,10 @@ const tools = require('../tools')
 
 module.exports = function(argv) {
   let paths = globby.sync(argv.glob)
-  let template = tools.safeEval(readFileSync(argv.template, 'utf8'))
+  let template = tools.safeModuleEval(readFileSync(argv.template, 'utf8'))
 
   for (let path of paths) {
-    let strings = tools.safeEval(readFileSync(path, 'utf8'))
+    let strings = tools.safeModuleEval(readFileSync(path, 'utf8'))
 
     if (strings == null) {
       console.log(`${path} skipped`)

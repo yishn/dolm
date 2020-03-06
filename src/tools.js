@@ -59,11 +59,24 @@ exports.safeEval = function(input, fallback = null) {
   try {
     return Function(`
       "use strict"
-      return (module => (${input}))({})
+      return (${input})
     `)()
   } catch (err) {
     return fallback
   }
+}
+
+exports.safeModuleEval = function(input) {
+  return Function(`
+    "use strict"
+
+    let exports = {}
+    let module = {exports}
+
+    ;(() => {${input}})()
+
+    return module.exports
+  `)()
 }
 
 exports.extractStrings = function(

@@ -11,7 +11,7 @@ module.exports = function(argv) {
   let getKey =
     argv.getKey == null
       ? undefined
-      : tools.safeEval(readFileSync(argv.getKey, 'utf8'))
+      : tools.safeModuleEval(readFileSync(argv.getKey, 'utf8'))
 
   let stringsArr = paths.map(path => {
     let content = readFileSync(path, 'utf8')
