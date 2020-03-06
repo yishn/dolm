@@ -10,7 +10,7 @@ module.exports = function(argv) {
 
   let getKey =
     argv.getKey == null
-      ? undefined
+      ? dolm.getKey
       : tools.safeModuleEval(readFileSync(argv.getKey, 'utf8'))
 
   let stringsArr = paths.map(path => {
@@ -19,7 +19,7 @@ module.exports = function(argv) {
     if (argv.output != null) process.stdout.write(path)
 
     let result = tools.extractStrings(content, {
-      getKey: getKey(dolm.getKey),
+      getKey,
       dolmIdentifier: argv.dolmIdentifier,
       generateEmptyTemplate: argv.template
     })
