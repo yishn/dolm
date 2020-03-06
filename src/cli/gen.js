@@ -14,7 +14,7 @@ module.exports = function(argv) {
   let getKey =
     argv.getKey == null
       ? dolm.getKey
-      : require(slash(path.relative(__filename, path.resolve(argv.getKey))))
+      : require(slash(path.relative(__dirname, path.resolve(argv.getKey))))
 
   let stringsArr = paths.map(path => {
     let content = readFileSync(path, 'utf8')
