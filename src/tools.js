@@ -174,14 +174,16 @@ exports.extractStrings = function(
             ? keyNode.value
             : exports.safeEval(code.slice(keyNode.start, keyNode.end))
 
-        let key = getKey(
-          input,
-          Object.assign({}, ...parameters.map(p => ({[p]: ''})))
-        )
+        if (input != null) {
+          let key = getKey(
+            input,
+            Object.assign({}, ...parameters.map(p => ({[p]: ''})))
+          )
 
-        if (key != null) {
           if (strings[context] == null) strings[context] = {}
           strings[context][key] = generateEmptyTemplate ? null : input
+        } else {
+          // TODO: warn user about incorrect dolm usage
         }
       }
     },
