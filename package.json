@@ -1,6 +1,6 @@
 {
   "name": "dolm",
-  "version": "0.5.2-beta",
+  "version": "0.5.3-beta",
   "description": "A tiny internationalization library.",
   "main": "./src/main.js",
   "bin": "./src/cli/main.js",
