@@ -1,5 +1,5 @@
 const {readFileSync} = require('fs')
-const tools = require('../tools')
+const tools = require('..')
 
 module.exports = function(argv) {
   let js = readFileSync(argv.path, 'utf8')

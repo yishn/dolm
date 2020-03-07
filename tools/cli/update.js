@@ -1,6 +1,6 @@
 const {readFileSync, writeFileSync} = require('fs')
 const globby = require('globby')
-const tools = require('../tools')
+const tools = require('..')
 
 module.exports = function(argv) {
   let paths = globby.sync(argv.glob)

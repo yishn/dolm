@@ -3,11 +3,11 @@
   "version": "0.6.0-beta",
   "description": "A tiny internationalization library.",
   "main": "./src/main.js",
-  "bin": "./src/cli/main.js",
+  "bin": "./tools/cli/main.js",
   "scripts": {
     "test": "cd tests && tap",
-    "format": "prettier \"**/*.{{j,t}s,md}\" \"!tests/tap-snapshots/*\" --write",
-    "format-watch": "onchange \"**/*.{{j,t}s,md}\" \"!tests/tap-snapshots/*\" -- prettier --write {{changed}}"
+    "format": "prettier \"**/*.{js,ts,md}\" \"!tests/tap-snapshots/*\" --write",
+    "format-watch": "onchange \"**/*.{js,ts,md}\" \"!tests/tap-snapshots/*\" -- prettier --write {{changed}}"
   },
   "repository": {
     "type": "git",

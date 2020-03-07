@@ -1,7 +1,7 @@
 const {parse} = require('@babel/parser')
 const traverse = require('@babel/traverse').default
 const prettier = require('prettier')
-const dolm = require('./main')
+const dolm = require('..')
 
 function isObjectMethodCall(node, objName, methodName) {
   return (

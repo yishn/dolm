@@ -3,8 +3,8 @@ const path = require('path')
 const globby = require('globby')
 const slash = require('slash')
 const mkdirp = require('mkdirp')
-const dolm = require('../main')
-const tools = require('../tools')
+const dolm = require('../..')
+const tools = require('..')
 
 module.exports = function(argv) {
   let paths = globby.sync(argv.glob, {
