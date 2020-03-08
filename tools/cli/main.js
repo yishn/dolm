@@ -3,7 +3,7 @@
 const yargs = require('yargs')
 const genCmd = require('./gen')
 const updateCmd = require('./update')
-const infoCmd = require('./info')
+const statsCmd = require('./stats')
 
 const argv = yargs
   .scriptName('dolm')
@@ -55,7 +55,7 @@ const argv = yargs
         })
   )
   .command(
-    'info <path>',
+    'stats <path>',
     'Shows progress information about the given strings file',
     yargs =>
       yargs.positional('path', {
@@ -71,8 +71,8 @@ if (command === 'gen') {
   genCmd(argv)
 } else if (command === 'update') {
   updateCmd(argv)
-} else if (command === 'info') {
-  infoCmd(argv)
+} else if (command === 'stats') {
+  statsCmd(argv)
 } else {
   yargs.showHelp()
 }
