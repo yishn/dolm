@@ -226,11 +226,14 @@ exports.serializeStrings = function(
               key
             ] === undefined
 
-          return [
-            unused ? '/* unused */ ' : '',
-            `${JSON.stringify(key)}: ${value},`
-          ].join('')
+          return unused && value == null
+            ? null
+            : [
+                unused ? '/* unused */ ' : '',
+                `${JSON.stringify(key)}: ${value},`
+              ].join('')
         })
+        .filter(x => x != null)
         .join('\n'),
       '}'
     ].join('\n')
