@@ -226,7 +226,7 @@ exports.serializeStrings = function(
               key
             ] === undefined
 
-          return unused && value == null
+          return unused && value === 'null'
             ? null
             : [
                 unused ? '/* unused */ ' : '',
